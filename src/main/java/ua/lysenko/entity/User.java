@@ -22,18 +22,25 @@ public class User {
     @Column(name = "name_id")
     private String name;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cellphone_id")
     private Cellphone cellphone;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "gadget_id")
     public Gadget gadget;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "sender")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sender")
     private List<Message> messages = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "caller")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "caller")
     private List<Call> calls = new ArrayList<>();
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

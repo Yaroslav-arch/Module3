@@ -24,11 +24,11 @@ public class Cellphone {
     @Column(name = "number_id")
     private String number;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "tariff_id")
     public Tariff tariff;
 
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "cellphone")
+    @OneToOne(mappedBy = "cellphone")
     private User user_id;
 
     @OneToMany(mappedBy = "cellphone")

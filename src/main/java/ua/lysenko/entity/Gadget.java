@@ -23,10 +23,10 @@ public class Gadget {
     @Column(name = "type_id")
     private String type;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "gadget")
+    @OneToMany(mappedBy = "gadget")
     public List<WebSession> sessionList = new ArrayList<>();
 
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "gadget")
+    @OneToOne(mappedBy = "gadget")
     private User user;
 
 

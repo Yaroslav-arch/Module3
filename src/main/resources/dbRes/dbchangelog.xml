@@ -6,7 +6,6 @@
     <changeSet author="yaroslav" id="1">
 
         <sqlFile dbms="postgresql"
-                 encoding="UTF-8"
                  endDelimiter="\nGO"
                  path="entitySQL/NewTables.sql"
                  relativeToChangelogFile="true"
@@ -14,7 +13,6 @@
                  stripComments="true"/>
 
         <sqlFile dbms="postgresql"
-                 encoding="UTF-8"
                  endDelimiter="\nGO"
                  path="entitySQL/tariffs.sql"
                  relativeToChangelogFile="true"
@@ -22,7 +20,6 @@
                  stripComments="true"/>
 
         <sqlFile dbms="postgresql"
-                 encoding="UTF-8"
                  endDelimiter="\nGO"
                  path="entitySQL/gadgets.sql"
                  relativeToChangelogFile="true"
@@ -30,7 +27,6 @@
                  stripComments="true"/>
 
         <sqlFile dbms="postgresql"
-                 encoding="UTF-8"
                  endDelimiter="\nGO"
                  path="entitySQL/cellphones.sql"
                  relativeToChangelogFile="true"
@@ -38,7 +34,6 @@
                  stripComments="true"/>
 
         <sqlFile dbms="postgresql"
-                 encoding="UTF-8"
                  endDelimiter="\nGO"
                  path="entitySQL/users.sql"
                  relativeToChangelogFile="true"
@@ -46,7 +41,6 @@
                  stripComments="true"/>
 
         <sqlFile dbms="postgresql"
-                 encoding="UTF-8"
                  endDelimiter="\nGO"
                  path="entitySQL/calls.sql"
                  relativeToChangelogFile="true"
@@ -54,7 +48,6 @@
                  stripComments="true"/>
 
         <sqlFile dbms="postgresql"
-                 encoding="UTF-8"
                  endDelimiter="\nGO"
                  path="entitySQL/messages.sql"
                  relativeToChangelogFile="true"
@@ -62,7 +55,6 @@
                  stripComments="true"/>
 
         <sqlFile dbms="postgresql"
-                 encoding="UTF-8"
                  endDelimiter="\nGO"
                  path="entitySQL/web_sessions.sql"
                  relativeToChangelogFile="true"

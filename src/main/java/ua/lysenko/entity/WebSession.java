@@ -17,7 +17,7 @@ public class WebSession {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Long id;
+    private long id;
 
     @Column(name = "time_of_connection")
     private LocalDateTime timeOfConnection;

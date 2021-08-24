@@ -18,16 +18,13 @@ public class Gadget {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Long id;
+    private long id;
 
     @Column(name = "type_id")
     private String type;
 
-    @OneToMany(mappedBy = "gadget")
-    public List<WebSession> sessionList = new ArrayList<>();
-
-    @OneToOne(mappedBy = "gadget")
+    @OneToOne
+    @JoinColumn(name = "user_id")
     private User user;
-
 
 }

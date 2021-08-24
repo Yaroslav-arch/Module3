@@ -17,7 +17,7 @@ public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Long id;
+    private long id;
 
     @Column(name = "time_of_send")
     private LocalDateTime timeOfSend;
@@ -25,13 +25,11 @@ public class Message {
     @Column(name = "content")
     private String content;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "sender_id")
-    private User sender;
+    @Column(name = "sender_id")
+    private long sender;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "receiver_id")
-    private User receiver;
+    @Column(name = "receiver_id")
+    private long receiver;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cellphone_id")

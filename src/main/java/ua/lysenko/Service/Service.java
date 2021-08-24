@@ -2,12 +2,14 @@ package ua.lysenko.Service;
 
 import ua.lysenko.dao.MessageDao;
 import ua.lysenko.dao.CellphoneDao;
+import ua.lysenko.entity.Cellphone;
 import ua.lysenko.entity.Message;
 import ua.lysenko.entity.User;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 
 public class Service {
     private final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -56,7 +58,7 @@ public class Service {
             String input = reader.readLine();
             Message message = messageDao.getMessageByContent(input);
            if (message!=null){
-               System.out.println(message.getReceiver().getName());
+               System.out.println(message.getSender().getName());
            }else {
                System.out.println("No matches in DB");
            }
@@ -67,7 +69,10 @@ public class Service {
     }
 
     private void getWeb() {
-        cellphoneDao.getTopWebActiveCellphone().forEach(System.out::println);
+        List<User> users = cellphoneDao.getTopWebActiveCellphone().stream()
+                    .map(Cellphone::getUser_id)
+                    .toList();
+       users.stream().map(User::getName).forEach(System.out::println);
     }
 
     private void getSms() {

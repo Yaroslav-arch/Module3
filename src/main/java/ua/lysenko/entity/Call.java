@@ -17,7 +17,7 @@ public class Call {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Long id;
+    private long id;
 
     @Column(name = "time_of_call")
     private LocalDateTime timeOfCall;
@@ -25,13 +25,11 @@ public class Call {
     @Column(name = "call_duration_sec")
     private int callDurationSec;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "caller_id")
-    private User caller;
+    @Column(name = "caller_id")
+    private long caller;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "receiver_id")
-    private User receiver;
+    @Column(name = "receiver_id")
+    private long receiver;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cellphone_id")

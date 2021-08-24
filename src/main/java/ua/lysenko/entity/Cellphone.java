@@ -16,7 +16,7 @@ public class Cellphone {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Long id;
+    private long id;
 
     @Column(name = "model")
     private String model;
@@ -28,15 +28,8 @@ public class Cellphone {
     @JoinColumn(name = "tariff_id")
     public Tariff tariff;
 
-    @OneToOne(mappedBy = "cellphone")
+    @OneToOne
+    @JoinColumn(name = "user_id")
     private User user_id;
 
-    @OneToMany(mappedBy = "cellphone")
-    List<Call> calls;
-
-    @OneToMany(mappedBy = "cellphone")
-    List<Message> messages;
-
-    @OneToMany(mappedBy = "cellphone")
-    List<WebSession> webSessions;
 }

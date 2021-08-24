@@ -17,15 +17,12 @@ public class Tariff {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
-    private Long id;
+    private long id;
 
     @Column(name = "name_id")
     private String name;
 
     @Column(name = "price")
     private float price;
-
-    @OneToMany(mappedBy = "tariff")
-    private List<Cellphone> cellphone = new ArrayList<>();
 
 }

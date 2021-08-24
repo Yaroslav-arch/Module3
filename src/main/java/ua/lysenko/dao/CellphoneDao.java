@@ -1,5 +1,6 @@
 package ua.lysenko.dao;
 
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import ua.lysenko.entity.Cellphone;
@@ -8,6 +9,7 @@ import ua.lysenko.utils.HibernateUtil;
 
 import javax.persistence.Query;
 import java.util.List;
+
 
 public class CellphoneDao {
 
@@ -43,6 +45,34 @@ public class CellphoneDao {
         }
         return cellphone;
     }
+
+    public List<Cellphone> getTopWebActiveCellphone() {
+
+        Transaction transaction = null;
+        List<Cellphone> results = null;
+        List<User> users = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+
+            String hql = " FROM Cellphone c ORDER BY size(c.webSessions) DESC";
+            Query query = session.createQuery(hql).setMaxResults(5);
+
+            results = (List<Cellphone>) query.getResultList();
+//            users = results.stream()
+//                    .map(Cellphone::getUser_id)
+//                    .toList();
+
+            transaction.commit();
+
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+        return results;
+    }
+
 
     public List<User> getTopCallsCellphone() {
 
@@ -98,33 +128,6 @@ public class CellphoneDao {
         return users;
     }
 
-    public List<User> getTopWebActiveCellphone() {
-
-        Transaction transaction = null;
-        List<Cellphone> results = null;
-        List<User> users = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
-
-            String hql = " FROM Cellphone c ORDER BY size(c.webSessions) DESC";
-            Query query = session.createQuery(hql).setMaxResults(5);
-
-            results = (List<Cellphone>) query.getResultList();
-            users = results.stream()
-                    .map(Cellphone::getUser_id)
-                    .toList();
-
-            transaction.commit();
-
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
-        }
-        return users;
-    }
-
     public String getTopPopularCellphoneModel() {
 
         Transaction transaction = null;
@@ -136,6 +139,12 @@ public class CellphoneDao {
 //            String hql = "SELECT count(c.model) FROM Cellphone c GROUP BY c.model order by count(*) DESC";
             String hql = "SELECT model FROM Cellphone GROUP BY model order by count(*) DESC";
             Query query = session.createQuery(hql).setMaxResults(1);
+
+//            String sql = "SELECT count(cellphone.model) FROM cellphones cellphone GROUP BY cellphone.model ORDER BY count(*) desc";
+//            SQLQuery sqlQuery = session.createSQLQuery(sql);
+//            sqlQuery.setMaxResults(1);
+//            List<Cellphone> queryResultList = (List<Cellphone>) sqlQuery.getResultList();
+//            model = queryResultList.get(0).getModel();
 
             results = query.getResultList();
             model = results.get(0).getModel();

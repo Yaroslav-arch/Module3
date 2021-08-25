@@ -1,23 +1,22 @@
 package ua.lysenko.dao;
 
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import ua.lysenko.entity.Cellphone;
+import ua.lysenko.entity.Message;
 import ua.lysenko.entity.User;
 import ua.lysenko.utils.HibernateUtil;
 
 import javax.persistence.Query;
 import java.util.List;
 
+public class WebSessionDao {
 
-public class CellphoneDao {
-
-    public void saveCellphone(Cellphone cellphone) {
+    public void saveMessage(Message message) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            session.save(cellphone);
+            session.save(message);
             transaction.commit();
 
         } catch (Exception e) {
@@ -28,13 +27,13 @@ public class CellphoneDao {
         }
     }
 
-    public Cellphone getCellphoneById(long id) {
+    public Message getMessage(long id) {
 
         Transaction transaction = null;
-        Cellphone cellphone = null;
+        Message message = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            cellphone = session.get(Cellphone.class, id);
+            message = session.get(Message.class, id);
             transaction.commit();
 
         } catch (Exception e) {
@@ -43,22 +42,20 @@ public class CellphoneDao {
             }
             e.printStackTrace();
         }
-        return cellphone;
+        return message;
     }
 
-    public String getTopPopularCellphoneModel() {
+    public List<User> getTop5ActiveUsers() {
 
         Transaction transaction = null;
-        List<Cellphone> results;
-        String model = null;
+        List<User> results = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
-            String hql = "select c from Cellphone c group by c.id, c.model order by count(*) desc";
-            Query query = session.createQuery(hql).setMaxResults(1);
+            String hql = "SELECT u FROM User u where u.id in (SELECT w.cellphone.id FROM WebSession w GROUP BY w.cellphone order by count(*) DESC)";
+            Query query = session.createQuery(hql).setMaxResults(5);
 
             results = query.getResultList();
-            model = results.get(0).getModel();
 
             transaction.commit();
 
@@ -68,15 +65,37 @@ public class CellphoneDao {
             }
             e.printStackTrace();
         }
-        return model;
+        return results;
     }
 
+    public int getTableSize() {
 
-    public void updateCellphone(Cellphone cellphone) {
+        Transaction transaction = null;
+        int totalSessions = 0;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+
+            String hql = "SELECT count(id) FROM WebSession ";
+            Query query = session.createQuery(hql);
+            Object callRecords = query.getSingleResult();
+            totalSessions = Integer.parseInt(String.valueOf(callRecords));
+
+            transaction.commit();
+
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+        return totalSessions;
+    }
+
+    public void updateMessage(Message message) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            session.update(cellphone);
+            session.update(message);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
@@ -86,15 +105,15 @@ public class CellphoneDao {
         }
     }
 
-    public void deleteCellphone(long id) {
+    public void deleteMessage(long id) {
 
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            Cellphone cellphone = session.get(Cellphone.class, id);
-            if (cellphone != null) {
-                session.delete(cellphone);
-                System.out.println("Cellphone is deleted");
+            Message message = session.get(Message.class, id);
+            if (message != null) {
+                session.delete(message);
+                System.out.println("Message is deleted");
             }
             transaction.commit();
         } catch (Exception e) {
